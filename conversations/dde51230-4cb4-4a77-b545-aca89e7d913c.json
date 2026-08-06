@@ -1,0 +1,37 @@
+{
+  "id": "dde51230-4cb4-4a77-b545-aca89e7d913c",
+  "title": "hello",
+  "created_at": "2026-07-27T13:14:29.875476+00:00",
+  "updated_at": "2026-07-27T16:13:33.306972+00:00",
+  "last_mood": "neutral",
+  "messages": [
+    {
+      "role": "user",
+      "text": "hello"
+    },
+    {
+      "role": "model",
+      "text": "Hello there! Wonderful to connect with you.\n\nWhat exciting questions are buzzing in your mind today, or what fascinating subject would you like to dive into? I'm ready when you are!"
+    },
+    {
+      "role": "user",
+      "text": "its a wonderful day"
+    },
+    {
+      "role": "model",
+      "text": "It truly is! A perfect day for exploring new ideas, wouldn't you agree?\n\nWhat's sparking your curiosity today? Is there a particular subject calling your name, or a question you'd love to unravel?"
+    },
+    {
+      "role": "user",
+      "text": "What is 2+2?"
+    },
+    {
+      "role": "model",
+      "text": "Ah, a foundational question! I love it.\n\nImagine you have two brilliant blue building blocks, and then you add two more to them. How many blocks would you have altogether? What do you think?"
+    }
+  ],
+  "engine_state": {
+    "valence": 0.097,
+    "arousal": 0.365
+  }
+}

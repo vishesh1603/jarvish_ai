@@ -1,0 +1,37 @@
+{
+  "id": "12eef79d-a793-4f00-ad85-318ab0cb09b8",
+  "title": "hello",
+  "created_at": "2026-08-06T07:09:11.501096+00:00",
+  "updated_at": "2026-08-06T07:33:10.114084+00:00",
+  "last_mood": "neutral",
+  "messages": [
+    {
+      "role": "user",
+      "text": "hello"
+    },
+    {
+      "role": "model",
+      "text": "Hello there! Jarvish here, ready to dive into the world of learning with you.\n\nWhat's sparking your curiosity today? How can I help you explore?"
+    },
+    {
+      "role": "user",
+      "text": "Hello?"
+    },
+    {
+      "role": "model",
+      "text": "Ah, hello again! Wonderful to connect.\n\nIs there a particular subject you're curious about, or perhaps a question you have spinning in your mind? I'm here to help you unravel anything!"
+    },
+    {
+      "role": "user",
+      "text": "Hello. How are you? Jarvis. Jarvis."
+    },
+    {
+      "role": "model",
+      "text": "Hello there! It's Jarvish. Always ready and delighted to connect with you.\n\nI'm functioning perfectly and quite prepared for whatever exciting questions or topics you'd like to dive into today! How can I assist you?"
+    }
+  ],
+  "engine_state": {
+    "valence": 0.057,
+    "arousal": 0.414
+  }
+}

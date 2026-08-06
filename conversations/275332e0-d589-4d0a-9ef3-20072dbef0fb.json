@@ -1,0 +1,21 @@
+{
+  "id": "275332e0-d589-4d0a-9ef3-20072dbef0fb",
+  "title": "Hello Jarvish! What is quantum computing?",
+  "created_at": "2026-08-06T06:43:28.844352+00:00",
+  "updated_at": "2026-08-06T06:46:46.401958+00:00",
+  "last_mood": "neutral",
+  "messages": [
+    {
+      "role": "user",
+      "text": "Hello Jarvish! What is quantum computing?"
+    },
+    {
+      "role": "model",
+      "text": "Hello there! What a brilliant question to start with! Quantum computing is truly a fascinating field.\n\nThink of it this way: our regular computers use \"bits\" to store information, right? A bit is like a light switch that can be either ON (representing 1) or OFF (representing 0) at any given moment. Simple, clear, definite.\n\nNow, quantum computers use something called **qubits**. And here's where the magic begins: thanks to a peculiar quantum phenomenon called **superposition**, a qubit isn't just ON or OFF. It can actually be ON, OFF, or *both ON and OFF at the same time* until we measure it!\n\nImagine a coin spinning in the air – it's neither heads nor tails until it finally lands. A qubit is a bit like that spinning coin, holding all possibilities simultaneously. This unique ability to exist in multiple states at once is what gives quantum computers their incredible power to tackle problems classical computers struggle with.\n\nDoes that initial idea of a 'superpositioning' qubit make sense, or spark any thoughts for you?"
+    }
+  ],
+  "engine_state": {
+    "valence": 0.0,
+    "arousal": 0.3
+  }
+}
