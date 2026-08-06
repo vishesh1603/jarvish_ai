@@ -1863,3 +1863,324 @@ body.mood-neutral    { --mood-color: #A78BFA; --mood-glow: rgba(167, 139, 250, 0
     border-radius: 4px !important;
     z-index: 9999 !important;
 }
+
+/* =======================================================================
+   AUTH MODAL & RAG DRAWER STYLES
+   ======================================================================= */
+
+.auth-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    width: auto;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.auth-trigger:hover {
+    background: rgba(128, 82, 255, 0.2);
+    border-color: var(--color-electric-iris);
+}
+
+.user-email-label {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.82);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 250ms ease;
+}
+
+.modal-overlay.hidden {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.auth-modal-card {
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+    background: #0d0d0d;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(128, 82, 255, 0.15);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-close-btn:hover {
+    color: #ffffff;
+}
+
+.auth-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+}
+
+.auth-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 8px 0;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 200ms ease;
+}
+
+.auth-tab.active {
+    color: #ffffff;
+    border-bottom-color: var(--color-electric-iris);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.auth-form.hidden {
+    display: none;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+}
+
+.form-group input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--color-electric-iris);
+    box-shadow: 0 0 10px rgba(128, 82, 255, 0.3);
+}
+
+.auth-error-msg {
+    color: #ff5252;
+    font-size: 13px;
+    min-height: 18px;
+}
+
+.btn-auth-submit {
+    background: var(--color-electric-iris);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background 200ms ease;
+}
+
+.btn-auth-submit:hover {
+    background: #9066ff;
+}
+
+.auth-profile-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 10px 0;
+}
+
+.auth-profile-view.hidden {
+    display: none;
+}
+
+.profile-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-electric-iris), var(--color-deep-verdant));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.btn-logout {
+    background: rgba(255, 82, 82, 0.15);
+    border: 1px solid rgba(255, 82, 82, 0.4);
+    color: #ff5252;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 82, 82, 0.3);
+}
+
+/* RAG Knowledge Drawer */
+.rag-drawer {
+    position: fixed;
+    top: 0;
+    right: -380px;
+    width: 360px;
+    height: 100vh;
+    background: #0a0a0a;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    z-index: 9900;
+    transition: right 300ms ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.rag-drawer.open {
+    right: 0;
+}
+
+.rag-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    overflow-y: auto;
+}
+
+.rag-description {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.rag-upload-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-rag-upload {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: rgba(128, 82, 255, 0.12);
+    border: 1px dashed var(--color-electric-iris);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 200ms ease;
+}
+
+.btn-rag-upload:hover {
+    background: rgba(128, 82, 255, 0.25);
+}
+
+.rag-upload-status {
+    font-size: 12px;
+    color: var(--color-electric-iris);
+}
+
+.rag-doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rag-doc-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+}
+
+.rag-doc-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #ffffff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 220px;
+}
+
+.rag-doc-meta {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.btn-doc-delete {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.btn-doc-delete:hover {
+    color: #ff5252;
+}
+
+.rag-empty {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 20px 0;
+}

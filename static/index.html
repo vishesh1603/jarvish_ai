@@ -128,6 +128,24 @@
                     <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
                 </svg>
             </button>
+            <!-- RAG Knowledge Base Toggle Button -->
+            <button id="btn-rag-toggle" class="btn-icon rag-toggle" title="Document Knowledge Base (RAG)" aria-label="Toggle Knowledge Base">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                </svg>
+            </button>
+            <!-- User Profile / Auth Trigger Button -->
+            <button id="btn-auth-trigger" class="btn-icon auth-trigger" title="Account Login / Sign Up" aria-label="User Account">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span id="user-email-label" class="user-email-label">Login</span>
+            </button>
             <button id="btn-new-chat" class="btn-icon" title="New Chat" aria-label="Start new conversation">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 5v14M5 12h14"/>
@@ -135,6 +153,96 @@
             </button>
         </div>
     </header>
+
+    <!-- AUTH MODAL -->
+    <div id="auth-modal-overlay" class="modal-overlay hidden">
+        <div class="auth-modal-card">
+            <button id="btn-auth-close" class="modal-close-btn">&times;</button>
+            <div class="auth-tabs">
+                <button id="tab-login" class="auth-tab active">Log In</button>
+                <button id="tab-signup" class="auth-tab">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="form-login" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" required placeholder="student@learnzo.in">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required placeholder="••••••••">
+                </div>
+                <div id="auth-error-login" class="auth-error-msg"></div>
+                <button type="submit" class="btn-auth-submit">Log In</button>
+            </form>
+
+            <!-- Signup Form -->
+            <form id="form-signup" class="auth-form hidden">
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" required placeholder="student@learnzo.in">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required placeholder="••••••••">
+                </div>
+                <div id="auth-error-signup" class="auth-error-msg"></div>
+                <button type="submit" class="btn-auth-submit">Create Account</button>
+            </form>
+
+            <!-- Logged In Profile View -->
+            <div id="auth-profile-view" class="auth-profile-view hidden">
+                <div class="profile-avatar">J</div>
+                <h3 id="profile-user-email">user@example.com</h3>
+                <p class="profile-meta">Account Status: Active (Scoped Persistence)</p>
+                <button id="btn-logout" class="btn-logout">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RAG KNOWLEDGE BASE DRAWER -->
+    <div id="rag-overlay" class="sidebar-overlay"></div>
+    <aside id="rag-drawer" class="rag-drawer">
+        <div class="sidebar-header">
+            <h2 class="sidebar-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+                Knowledge Base (RAG)
+            </h2>
+            <button id="btn-rag-close" class="btn-icon btn-sidebar-close" title="Close" aria-label="Close drawer">
+                &times;
+            </button>
+        </div>
+
+        <div class="rag-content">
+            <p class="rag-description">
+                Upload reference PDFs or text documents. Jarvish AI will use vector embeddings to retrieve relevant facts when answering your questions!
+            </p>
+
+            <div class="rag-upload-box">
+                <input type="file" id="rag-file-input" accept=".pdf,.txt" style="display:none">
+                <button id="btn-trigger-upload" class="btn-rag-upload">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    Upload Reference File (.pdf, .txt)
+                </button>
+                <div id="rag-upload-status" class="rag-upload-status"></div>
+            </div>
+
+            <div class="rag-doc-list-header">
+                <h3>Uploaded Documents</h3>
+            </div>
+            <div id="rag-doc-list" class="rag-doc-list">
+                <div class="rag-empty">No reference files uploaded yet.</div>
+            </div>
+        </div>
+    </aside>
 
     <!-- MEMORY SIDEBAR — conversation history -->
     <div id="sidebar-overlay" class="sidebar-overlay"></div>

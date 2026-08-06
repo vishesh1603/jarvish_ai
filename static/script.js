@@ -478,17 +478,31 @@ function autoResizeTextarea() {
 // CHAT API
 // -----------------------------------------------------------------------
 
+// -----------------------------------------------------------------------
+// AUTHENTICATION & FETCH HELPERS
+// -----------------------------------------------------------------------
+let authToken = localStorage.getItem("jarvish_token") || null;
+let currentUser = null;
+
+function getAuthHeaders() {
+    const headers = {};
+    if (authToken) {
+        headers["Authorization"] = `Bearer ${authToken}`;
+    }
+    return headers;
+}
+
+async function fetchWithAuth(url, options = {}) {
+    options.headers = {
+        ...getAuthHeaders(),
+        ...(options.headers || {})
+    };
+    return fetch(url, options);
+}
+
 /**
- * Send the user's message to the backend and render the response.
- *
- * Flow:
- *   1. Read and clear input
- *   2. Render user message bubble
- *   3. Show typing indicator
- *   4. POST to /api/chat
- *   5. Hide typing indicator
- *   6. Update mood (orb, badge, body class)
- *   7. Render bot message bubble
+ * Send user message to the API, render the response, update mood,
+ * auto-save the conversation, and speak the reply.
  */
 async function sendMessage() {
     const text = userInput.value.trim();
@@ -507,11 +521,11 @@ async function sendMessage() {
     showTypingIndicator();
 
     try {
-        // 3. Call the API
-        const response = await fetch("/api/chat", {
+        // 3. Call the API with Auth & active conversation ID
+        const response = await fetchWithAuth("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: text }),
+            body: JSON.stringify({ message: text, conversation_id: activeConversationId }),
         });
 
         // 4. Hide typing
@@ -519,7 +533,7 @@ async function sendMessage() {
 
         if (!response.ok) {
             const err = await response.json().catch(() => ({}));
-            throw new Error(err.error || `Server error (${response.status})`);
+            throw new Error(err.detail || err.error || `Server error (${response.status})`);
         }
 
         const data = await response.json();
@@ -1702,7 +1716,7 @@ function closeSidebar() {
  */
 async function loadConversationList() {
     try {
-        const response = await fetch("/api/conversations");
+        const response = await fetchWithAuth("/api/conversations");
         if (!response.ok) throw new Error("Failed to load conversations");
         conversations = await response.json();
         renderConversationList(conversations);
@@ -1825,7 +1839,7 @@ async function loadConversation(id) {
     stopSpeaking(); // Stop current TTS
 
     try {
-        const response = await fetch(`/api/conversations/${id}/load`, {
+        const response = await fetchWithAuth(`/api/conversations/${id}/load`, {
             method: "POST"
         });
 
@@ -1874,7 +1888,7 @@ async function deleteConversation(id) {
     if (!confirm("Are you sure you want to delete this conversation?")) return;
 
     try {
-        const response = await fetch(`/api/conversations/${id}`, {
+        const response = await fetchWithAuth(`/api/conversations/${id}`, {
             method: "DELETE"
         });
 
@@ -1932,7 +1946,7 @@ function renameConversationUI(id, titleEl) {
         }
 
         try {
-            const response = await fetch(`/api/conversations/${id}/rename`, {
+            const response = await fetchWithAuth(`/api/conversations/${id}/rename`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ title: newTitle })
@@ -2429,4 +2443,279 @@ function stopLipSyncAnimation() {
         avatarMouth.style.transform = "scaleY(1) scaleX(1)";
     }
 }
+
+// =======================================================================
+// AUTHENTICATION UI & PROFILE MANAGEMENT
+// =======================================================================
+
+function initAuthUI() {
+    const btnAuthTrigger = document.getElementById("btn-auth-trigger");
+    const authOverlay = document.getElementById("auth-modal-overlay");
+    const btnAuthClose = document.getElementById("btn-auth-close");
+    const tabLogin = document.getElementById("tab-login");
+    const tabSignup = document.getElementById("tab-signup");
+    const formLogin = document.getElementById("form-login");
+    const formSignup = document.getElementById("form-signup");
+    const profileView = document.getElementById("auth-profile-view");
+    const userEmailLabel = document.getElementById("user-email-label");
+    const profileUserEmail = document.getElementById("profile-user-email");
+    const btnLogout = document.getElementById("btn-logout");
+    const errLogin = document.getElementById("auth-error-login");
+    const errSignup = document.getElementById("auth-error-signup");
+
+    if (!btnAuthTrigger || !authOverlay) return;
+
+    // Open modal
+    btnAuthTrigger.addEventListener("click", () => {
+        authOverlay.classList.remove("hidden");
+        updateModalState();
+    });
+
+    // Close modal
+    btnAuthClose.addEventListener("click", () => authOverlay.classList.add("hidden"));
+    authOverlay.addEventListener("click", (e) => {
+        if (e.target === authOverlay) authOverlay.classList.add("hidden");
+    });
+
+    // Tab switching
+    tabLogin.addEventListener("click", () => {
+        tabLogin.classList.add("active");
+        tabSignup.classList.remove("active");
+        formLogin.classList.remove("hidden");
+        formSignup.classList.add("hidden");
+    });
+
+    tabSignup.addEventListener("click", () => {
+        tabSignup.classList.add("active");
+        tabLogin.classList.remove("active");
+        formSignup.classList.remove("hidden");
+        formLogin.classList.add("hidden");
+    });
+
+    function updateModalState() {
+        errLogin.textContent = "";
+        errSignup.textContent = "";
+        if (currentUser) {
+            tabLogin.style.display = "none";
+            tabSignup.style.display = "none";
+            formLogin.classList.add("hidden");
+            formSignup.classList.add("hidden");
+            profileView.classList.remove("hidden");
+            profileUserEmail.textContent = currentUser.email;
+        } else {
+            tabLogin.style.display = "";
+            tabSignup.style.display = "";
+            profileView.classList.add("hidden");
+            if (tabLogin.classList.contains("active")) {
+                formLogin.classList.remove("hidden");
+                formSignup.classList.add("hidden");
+            } else {
+                formSignup.classList.remove("hidden");
+                formLogin.classList.add("hidden");
+            }
+        }
+    }
+
+    // Login submit
+    formLogin.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errLogin.textContent = "";
+        const email = document.getElementById("login-email").value;
+        const password = document.getElementById("login-password").value;
+
+        try {
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.detail || "Login failed");
+
+            authToken = data.access_token;
+            currentUser = data.user;
+            localStorage.setItem("jarvish_token", authToken);
+            userEmailLabel.textContent = currentUser.email.split("@")[0];
+            authOverlay.classList.add("hidden");
+            loadConversationList();
+            loadDocumentList();
+        } catch (err) {
+            errLogin.textContent = err.message;
+        }
+    });
+
+    // Signup submit
+    formSignup.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errSignup.textContent = "";
+        const email = document.getElementById("signup-email").value;
+        const password = document.getElementById("signup-password").value;
+
+        try {
+            const res = await fetch("/api/auth/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.detail || "Signup failed");
+
+            authToken = data.access_token;
+            currentUser = data.user;
+            localStorage.setItem("jarvish_token", authToken);
+            userEmailLabel.textContent = currentUser.email.split("@")[0];
+            authOverlay.classList.add("hidden");
+            loadConversationList();
+            loadDocumentList();
+        } catch (err) {
+            errSignup.textContent = err.message;
+        }
+    });
+
+    // Logout submit
+    btnLogout.addEventListener("click", () => {
+        authToken = null;
+        currentUser = null;
+        localStorage.removeItem("jarvish_token");
+        userEmailLabel.textContent = "Login";
+        updateModalState();
+        loadConversationList();
+        loadDocumentList();
+    });
+
+    // Check token on load
+    checkAuthOnLoad();
+}
+
+async function checkAuthOnLoad() {
+    if (!authToken) return;
+    try {
+        const res = await fetchWithAuth("/api/auth/me");
+        if (res.ok) {
+            currentUser = await res.json();
+            const userEmailLabel = document.getElementById("user-email-label");
+            if (userEmailLabel && currentUser) {
+                userEmailLabel.textContent = currentUser.email.split("@")[0];
+            }
+        } else {
+            authToken = null;
+            localStorage.removeItem("jarvish_token");
+        }
+    } catch (e) {
+        console.warn("[Auth Load Warning]", e);
+    }
+}
+
+// =======================================================================
+// RAG KNOWLEDGE BASE DRAWER & UPLOAD UI
+// =======================================================================
+
+function initRAGUI() {
+    const btnRagToggle = document.getElementById("btn-rag-toggle");
+    const ragDrawer = document.getElementById("rag-drawer");
+    const ragOverlay = document.getElementById("rag-overlay");
+    const btnRagClose = document.getElementById("btn-rag-close");
+    const btnTriggerUpload = document.getElementById("btn-trigger-upload");
+    const fileInput = document.getElementById("rag-file-input");
+    const uploadStatus = document.getElementById("rag-upload-status");
+
+    if (!btnRagToggle || !ragDrawer) return;
+
+    btnRagToggle.addEventListener("click", () => {
+        ragDrawer.classList.toggle("open");
+        ragOverlay.classList.toggle("active");
+        if (ragDrawer.classList.contains("open")) {
+            loadDocumentList();
+        }
+    });
+
+    btnRagClose.addEventListener("click", closeRagDrawer);
+    ragOverlay.addEventListener("click", closeRagDrawer);
+
+    function closeRagDrawer() {
+        ragDrawer.classList.remove("open");
+        ragOverlay.classList.remove("active");
+    }
+
+    btnTriggerUpload.addEventListener("click", () => fileInput.click());
+
+    fileInput.addEventListener("change", async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        uploadStatus.textContent = `Uploading ${file.name}...`;
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await fetchWithAuth("/api/documents/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.detail || "Upload failed");
+
+            uploadStatus.textContent = `✅ Successfully indexed ${data.chunk_count} chunks!`;
+            fileInput.value = "";
+            loadDocumentList();
+            setTimeout(() => { uploadStatus.textContent = ""; }, 4000);
+
+        } catch (err) {
+            uploadStatus.textContent = `❌ Upload failed: ${err.message}`;
+        }
+    });
+
+    loadDocumentList();
+}
+
+async function loadDocumentList() {
+    const docListEl = document.getElementById("rag-doc-list");
+    if (!docListEl) return;
+
+    try {
+        const res = await fetchWithAuth("/api/documents");
+        if (!res.ok) return;
+
+        const docs = await res.json();
+        docListEl.innerHTML = "";
+
+        if (!docs || docs.length === 0) {
+            docListEl.innerHTML = '<div class="rag-empty">No reference files uploaded yet.</div>';
+            return;
+        }
+
+        docs.forEach(doc => {
+            const card = document.createElement("div");
+            card.className = "rag-doc-card";
+            card.innerHTML = `
+                <div>
+                    <div class="rag-doc-name">${escapeHtml(doc.filename)}</div>
+                    <div class="rag-doc-meta">${doc.chunk_count} vector chunks</div>
+                </div>
+                <button class="btn-doc-delete" data-id="${doc.id}" title="Delete Document">&times;</button>
+            `;
+
+            card.querySelector(".btn-doc-delete").addEventListener("click", async () => {
+                if (confirm(`Delete document "${doc.filename}"?`)) {
+                    await fetchWithAuth(`/api/documents/${doc.id}`, { method: "DELETE" });
+                    loadDocumentList();
+                }
+            });
+
+            docListEl.appendChild(card);
+        });
+
+    } catch (e) {
+        console.error("[RAG List Error]", e);
+    }
+}
+
+// Register Auth & RAG UI initialization on DOM ready
+document.addEventListener("DOMContentLoaded", () => {
+    initAuthUI();
+    initRAGUI();
+});
 
