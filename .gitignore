@@ -216,3 +216,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Jarvish AI project-specific
+conversations/
+*.mp4
+*.wav
