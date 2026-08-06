@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jarvish AI — an emotionally intelligent AI teacher that adapts to your mood and makes learning engaging.">
+    <title>Jarvish AI — Emotional AI Teacher</title>
+
+    <!-- Google Fonts — Inter with Dala typography weights (200, 400, 600, 700) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Background Constellation Particle Canvas (Dala Brand Visual) -->
+    <canvas id="dala-constellation-canvas"></canvas>
+
+    <!-- ============================================================= -->
+    <!-- LANDING PAGE OVERLAY — Splash & Welcome Screens               -->
+    <!-- ============================================================= -->
+    <div id="landing-page" class="landing-page">
+        <!-- Screen 1: Splash Screen -->
+        <div id="splash-screen" class="splash-screen">
+            <div class="splash-orb-container">
+                <div class="splash-orb-bloom"></div>
+                <div class="splash-orb-core">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <polygon points="16,4 28,26 4,26" fill="url(#logo-grad)"/>
+                        <defs>
+                            <linearGradient id="logo-grad" x1="16" y1="4" x2="28" y2="26" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#8052ff"/>
+                                <stop offset="1" stop-color="#15846e"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="splash-orb-ring"></div>
+            </div>
+            <h2 class="splash-title">Jarvish AI</h2>
+        </div>
+
+        <!-- Screen 2: Welcome Screen (Dala 2-Column Asymmetric Layout) -->
+        <div id="welcome-screen" class="welcome-screen hidden">
+            <!-- Top Wordmark -->
+            <div class="welcome-wordmark stagger-item">
+                <div class="logo-mark">
+                    <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+                        <polygon points="16,4 28,26 4,26" fill="url(#logo-grad-wm)"/>
+                        <defs>
+                            <linearGradient id="logo-grad-wm" x1="16" y1="4" x2="28" y2="26" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#8052ff"/>
+                                <stop offset="1" stop-color="#15846e"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span>Jarvish AI</span>
+            </div>
+
+            <!-- Central Hero Asymmetric 2-Column Container -->
+            <div class="welcome-hero">
+                <div class="welcome-hero-left">
+                    <span class="amber-kicker stagger-item">DISTRIBUTED INTELLIGENCE</span>
+                    <h1 class="welcome-headline stagger-item">Unlock collective <span class="highlight-saffron">wisdom.</span></h1>
+                    <p class="welcome-subheading stagger-item">
+                        Meet Jarvish — your AI study buddy. Knowledge visualized as distributed intelligence rather than hierarchical data. Always listening. Always learning.
+                    </p>
+                    <div class="welcome-cta stagger-item">
+                        <button id="btn-start-chat" class="btn-start-chat">
+                            <span>Start Chatting</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Branding -->
+            <p class="welcome-footer stagger-item">
+                Powered by <span>Learnzo Bharat Education</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- HEADER — logo, mood badge, new-chat button -->
+    <header id="app-header">
+        <div class="header-left">
+            <!-- Sidebar toggle (hamburger) -->
+            <button id="btn-sidebar-toggle" class="btn-icon" title="Conversation history" aria-label="Toggle conversation history">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+            <div class="logo-mark">J</div>
+            <div class="header-title">
+                <h1>Jarvish AI</h1>
+                <span class="header-subtitle">Emotional AI Teacher</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div id="mood-badge" class="mood-badge" data-mood="neutral">
+                <span class="mood-dot"></span>
+                <span id="mood-label">neutral</span>
+            </div>
+            <!-- Voice toggle — enables/disables auto-speak for bot replies -->
+            <button id="btn-voice-toggle" class="btn-icon voice-toggle" title="Toggle voice responses" aria-label="Toggle voice responses">
+                <svg id="icon-speaker-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+                <svg id="icon-speaker-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <line x1="23" y1="9" x2="17" y2="15"/>
+                    <line x1="17" y1="9" x2="23" y2="15"/>
+                </svg>
+            </button>
+            <!-- Avatar toggle — enables/disables SadTalker talking head generation -->
+            <button id="btn-avatar-toggle" class="btn-icon avatar-toggle" title="Toggle AI Avatar (OFF)" aria-label="Toggle AI Avatar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 7l-7 5 7 5V7z"/>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+            </button>
+            <button id="btn-new-chat" class="btn-icon" title="New Chat" aria-label="Start new conversation">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- MEMORY SIDEBAR — conversation history -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    <aside id="memory-sidebar" class="memory-sidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                Memory
+            </h2>
+            <button id="btn-sidebar-close" class="btn-icon btn-sidebar-close" title="Close" aria-label="Close sidebar">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="sidebar-search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input id="sidebar-search-input" type="text" placeholder="Search conversations..." aria-label="Search conversations">
+        </div>
+        <div id="conversation-list" class="conversation-list">
+            <!-- Populated dynamically by JS -->
+            <div class="sidebar-empty" id="sidebar-empty">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.4">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <p>No conversations yet</p>
+                <span>Start chatting and your conversations will appear here</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT — two-panel split: avatar (left) + chat (right) -->
+    <main id="app-main">
+        <!-- LEFT PANEL — Avatar -->
+        <div id="panel-avatar" class="split-panel">
+            <section id="orb-section" aria-label="AI Avatar">
+                <div id="avatar-container">
+                    <div id="avatar-wrapper">
+                        <img id="avatar-img" src="/static/jarvish_face.jpg" alt="Jarvish Avatar">
+                        <div id="avatar-mouth"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- RESIZABLE DIVIDER -->
+        <div id="split-divider" title="Drag to resize panels"></div>
+
+        <!-- RIGHT PANEL — Chat + Input -->
+        <div id="panel-chat" class="split-panel">
+            <!-- Chat messages area inside transparent glass container -->
+            <div class="chat-glow-container">
+                <section id="chat-area" aria-label="Conversation">
+                    <div id="messages" class="messages">
+                        <!-- Welcome message -->
+                        <div class="message bot-message entrance" data-mood="neutral">
+                            <div class="message-avatar">J</div>
+                            <div class="message-content">
+                                <div class="message-bubble">
+                                    <p>Hey there! &#x1F44B; I'm <strong>Jarvish</strong>, your AI study buddy. Ask me anything — from quantum physics to Shakespeare — and I'll make it click.</p>
+                                    <p>What are you working on today?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- INPUT BAR — inside right panel -->
+            <footer id="input-bar">
+                <div class="input-top-bar">
+                    <!-- Hands-free wake-word visual indicator above text box -->
+                    <span id="wake-word-badge" class="wake-word-badge" title="Hands-free wake-word active: say 'Jarvish' to toggle mic">
+                        <span class="wake-word-dot"></span>
+                        <span class="wake-word-label">Say "Jarvish"</span>
+                    </span>
+                </div>
+                <div class="input-wrapper">
+                    <textarea
+                        id="user-input"
+                        placeholder="Ask Jarvish anything..."
+                        rows="1"
+                        aria-label="Type your message"
+                        autocomplete="off"
+                    ></textarea>
+                    <!-- Mic button — hold or click to record voice input -->
+                    <button id="btn-mic" class="btn-mic" title="Voice input" aria-label="Voice input">
+                        <svg class="mic-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" y1="19" x2="12" y2="23"/>
+                            <line x1="8" y1="23" x2="16" y2="23"/>
+                        </svg>
+                        <!-- Animated bars shown during recording -->
+                        <div class="mic-waves" style="display:none">
+                            <span class="mic-wave-bar"></span>
+                            <span class="mic-wave-bar"></span>
+                            <span class="mic-wave-bar"></span>
+                            <span class="mic-wave-bar"></span>
+                            <span class="mic-wave-bar"></span>
+                        </div>
+                        <!-- Loading spinner for processing state -->
+                        <div class="spinner"></div>
+                    </button>
+                    <button id="btn-send" class="btn-send" title="Send message" aria-label="Send message" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 2L11 13"/>
+                            <path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Recording preview bar — shown after stopping a recording -->
+                <div id="recording-preview" class="recording-preview" style="display:none">
+                    <button id="btn-preview-play" class="btn-preview-play" title="Play recording" aria-label="Play recording">
+                        <svg id="icon-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        <svg id="icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="display:none">
+                            <rect x="6" y="4" width="4" height="16"/>
+                            <rect x="14" y="4" width="4" height="16"/>
+                        </svg>
+                    </button>
+                    <div class="preview-waveform">
+                        <div class="preview-waveform-bars">
+                            <span class="wbar"></span><span class="wbar"></span><span class="wbar"></span>
+                            <span class="wbar"></span><span class="wbar"></span><span class="wbar"></span>
+                            <span class="wbar"></span><span class="wbar"></span><span class="wbar"></span>
+                            <span class="wbar"></span><span class="wbar"></span><span class="wbar"></span>
+                            <span class="wbar"></span><span class="wbar"></span><span class="wbar"></span>
+                            <span class="wbar"></span><span class="wbar"></span><span class="wbar"></span>
+                            <span class="wbar"></span><span class="wbar"></span>
+                        </div>
+                        <span id="preview-duration" class="preview-duration">0:00</span>
+                    </div>
+                    <p id="preview-transcript" class="preview-transcript">Transcribing...</p>
+                    <button id="btn-preview-send" class="btn-preview-send" title="Send this message">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 2L11 13"/>
+                            <path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+                        </svg>
+                    </button>
+                    <button id="btn-preview-discard" class="btn-preview-discard" title="Discard recording">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Voice status bar — shows recording/speaking state -->
+                <div id="voice-status" class="voice-status" style="display:none">
+                    <span id="voice-status-dot" class="voice-status-dot"></span>
+                    <span id="voice-status-text">Listening...</span>
+                </div>
+                <p class="input-hint">Press <kbd>Enter</kbd> to send · <kbd>Shift + Enter</kbd> for new line · Click <kbd>&#x1F3A4;</kbd> for voice</p>
+            </footer>
+        </div>
+    </main>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1865 @@
+/* ================================================================
+   Dala Design System — Style Reference Theme
+   ================================================================
+   Theme: Dark / Void (#000000)
+   Single Typeface: Inter (PPNeueMontreal substitute)
+   Headline Scale: 78–113px, Weight 400, Tracking -0.04em
+   Body Copy: 18px, Weight 200 (Ultra-light)
+   Primary Action: Electric Iris (#8052ff) Violet Pill Button
+   Accent Emphasis: Saffron Spark (#ffb829) Amber
+   ================================================================ */
+
+:root {
+    /* ---- Dala Color Tokens ---- */
+    --color-void:          #000000;
+    --color-bone-white:    #ffffff;
+    --color-ash-gray:      #9a9a9a;
+    --color-silver-mist:    #bdbdbd;
+    --color-electric-iris: #8052ff;
+    --color-saffron-spark: #ffb829;
+    --color-deep-verdant:  #15846e;
+
+    /* ---- Theme Aliases ---- */
+    --bg-primary:       var(--color-void);
+    --bg-secondary:     var(--color-void);
+    --bg-surface:       transparent;
+    --bg-surface-hover: rgba(255, 255, 255, 0.03);
+    --bg-glass:         transparent;
+    --bg-glass-strong:  rgba(255, 255, 255, 0.03);
+
+    --text-primary:     var(--color-bone-white);
+    --text-secondary:   var(--color-ash-gray);
+    --text-muted:       var(--color-silver-mist);
+
+    --border-subtle:    transparent;
+    --border-glass:     transparent;
+
+    /* ---- Mood colours (default to Electric Iris #8052ff) ---- */
+    --mood-color:       var(--color-electric-iris);
+    --mood-glow:        rgba(128, 82, 255, 0.25);
+    --mood-glow-strong: rgba(128, 82, 255, 0.45);
+    --mood-bg-tint:     rgba(128, 82, 255, 0.05);
+
+    /* ---- Dala Typography Tokens ---- */
+    --font-ppneuemontreal: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-family:         var(--font-ppneuemontreal);
+
+    /* Scale */
+    --text-caption:     12px;
+    --text-nav-label:   14px;
+    --text-body:        18px;
+    --text-heading-2xs: 24px;
+    --text-heading-xs:  27px;
+    --text-subheading:  36px;
+    --text-heading-sm:  42px;
+    --text-heading:     48px;
+    --text-heading-lg:  78px;
+    --text-display:      113px;
+
+    /* Weights */
+    --font-weight-extralight: 200;
+    --font-weight-regular:    400;
+    --font-weight-semibold:   600;
+    --font-weight-bold:       700;
+
+    /* Spacing Scale */
+    --space-xs:  6px;
+    --space-sm:  12px;
+    --space-md:  24px;
+    --space-lg:  36px;
+    --space-xl:  60px;
+    --space-2xl: 96px;
+    --space-3xl: 120px;
+
+    /* Border Radii */
+    --radius-nav:     24px;
+    --radius-tags:    9999px;
+    --radius-cards:   24px;
+    --radius-buttons: 24px;
+    --radius-pill:    22.5px;
+
+    /* ---- Transitions ---- */
+    --transition-fast:   150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-mood:   800ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ---- Layout ---- */
+    --header-height:     72px;
+    --input-bar-height:  120px;
+    --max-chat-width:    768px;
+    --page-max-width:    1280px;
+}
+
+
+/* ----------------------------------------------------------------
+   Reset & Base — Pure Void Black Canvas
+   ---------------------------------------------------------------- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    background-color: var(--color-void);
+    color: var(--color-bone-white);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight-extralight); /* Weight 200 signature Dala body copy */
+    background: var(--color-void);
+    color: var(--color-bone-white);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Background Constellation Canvas */
+#dala-constellation-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    background: var(--color-void);
+}
+
+/* Glow container framing ONLY the chat viewport card — Dala dark glass scrim */
+.chat-glow-container {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: var(--space-sm) var(--space-sm) 0;
+    border-radius: var(--radius-cards);
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: none;
+    box-shadow: none;
+}
+
+
+
+/* ----------------------------------------------------------------
+   HEADER
+   ---------------------------------------------------------------- */
+#app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-lg);
+    background: var(--color-void);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: none;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.logo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-cards);
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-regular);
+    font-size: var(--text-body);
+    color: var(--color-electric-iris);
+    box-shadow: none;
+}
+
+.header-title h1 {
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-regular); /* Dala rule: Weight 400 (never bold) */
+    letter-spacing: -0.48px;
+    color: var(--color-bone-white);
+    line-height: 1.2;
+}
+
+.header-subtitle {
+    font-size: var(--text-caption);
+    color: var(--color-ash-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+    font-weight: var(--font-weight-semibold);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+/* Dala Mood Badge: Pill shape (9999px), Saffron Spark (#ffb829) text/dot, no solid color block */
+.mood-badge {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 4px 14px;
+    border-radius: var(--radius-tags);
+    background: transparent;
+    border: 1px solid rgba(255, 184, 41, 0.25);
+    font-size: var(--text-nav-label);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-saffron-spark);
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+    transition: all var(--transition-normal);
+}
+
+.mood-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-saffron-spark);
+    transition: background var(--transition-normal);
+    animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+}
+
+/* Dala Icon Buttons: Ghost style, no background/border, white/ash-gray icon, subtle hover glow */
+.btn-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    border: none;
+    background: transparent;
+    color: var(--color-ash-gray);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-icon:hover {
+    background: transparent;
+    color: var(--color-bone-white);
+    border: none;
+}
+
+
+/* ----------------------------------------------------------------
+   MEMORY SIDEBAR
+   ---------------------------------------------------------------- */
+
+/* Overlay backdrop — dims the main content when sidebar is open */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 199;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Sidebar panel — Dala Void (#000000) Canvas */
+.memory-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 320px;
+    max-width: 85vw;
+    z-index: 200;
+    background: var(--color-void);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-right: none;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(-100%);
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: none;
+}
+
+.memory-sidebar.open {
+    transform: translateX(0);
+}
+
+/* Sidebar header */
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: none;
+    flex-shrink: 0;
+}
+
+.sidebar-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-bone-white);
+}
+
+.btn-sidebar-close {
+    width: 28px;
+    height: 28px;
+}
+
+/* Search bar */
+.sidebar-search {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin: var(--space-sm) var(--space-lg);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-cards);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--color-ash-gray);
+    flex-shrink: 0;
+    transition: border-color var(--transition-fast);
+}
+
+.sidebar-search:focus-within {
+    border-color: var(--color-electric-iris);
+}
+
+.sidebar-search input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--color-bone-white);
+    font-family: var(--font-family);
+    font-size: var(--text-nav-label);
+    font-weight: var(--font-weight-extralight);
+    width: 100%;
+}
+
+.sidebar-search input::placeholder {
+    color: var(--color-ash-gray);
+}
+
+/* Conversation list */
+.conversation-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-sm) var(--space-md);
+}
+
+.conversation-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.conversation-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+/* Individual conversation card */
+.conv-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-cards);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    margin-bottom: 4px;
+}
+
+.conv-card:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.conv-card.active {
+    background: rgba(128, 82, 255, 0.08);
+    border: none;
+}
+
+/* Mood indicator dot on conversation card */
+.conv-mood-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+
+.conv-mood-dot[data-mood="excited"]    { background: #FBBF24; }
+.conv-mood-dot[data-mood="happy"]      { background: #34D399; }
+.conv-mood-dot[data-mood="curious"]    { background: #60A5FA; }
+.conv-mood-dot[data-mood="calm"]       { background: #38BDF8; }
+.conv-mood-dot[data-mood="anxious"]    { background: #F97316; }
+.conv-mood-dot[data-mood="sad"]        { background: #64748B; }
+.conv-mood-dot[data-mood="frustrated"] { background: #EF4444; }
+.conv-mood-dot[data-mood="neutral"]    { background: #A78BFA; }
+
+/* Card text content */
+.conv-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.conv-title {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.conv-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: 2px;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+.conv-msg-count {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* Delete button — appears on hover */
+.conv-delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all var(--transition-fast);
+}
+
+.conv-card:hover .conv-delete {
+    opacity: 1;
+}
+
+.conv-delete:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #EF4444;
+}
+
+/* Empty state */
+.sidebar-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-2xl) var(--space-lg);
+    text-align: center;
+    color: var(--text-muted);
+}
+
+.sidebar-empty p {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.sidebar-empty span {
+    font-size: var(--font-size-xs);
+    line-height: 1.4;
+}
+
+
+/* ----------------------------------------------------------------
+   MAIN LAYOUT
+   ---------------------------------------------------------------- */
+#app-main {
+    position: fixed;
+    top: var(--header-height);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    background-color: transparent;
+    background-image: none;
+}
+
+/* ----------------------------------------------------------------
+   SPLIT PANELS — two-panel resizable layout
+   ---------------------------------------------------------------- */
+.split-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+}
+
+#panel-avatar {
+    flex: 0 0 65%;
+    min-width: 30%;
+    max-width: 80%;
+    background: transparent;
+}
+
+#panel-chat {
+    flex: 1;
+    min-width: 20%;
+    background: transparent;
+}
+
+/* Draggable divider — thin, minimal, Electric Iris on hover */
+#split-divider {
+    width: 4px;
+    cursor: col-resize;
+    background: rgba(255, 255, 255, 0.08);
+    position: relative;
+    flex-shrink: 0;
+    z-index: 10;
+    transition: background 0.15s ease;
+}
+
+#split-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 36px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 0.15s ease, height 0.15s ease;
+}
+
+#split-divider:hover,
+#split-divider.dragging {
+    background: var(--color-electric-iris);
+}
+
+#split-divider:hover::after,
+#split-divider.dragging::after {
+    background: #ffffff;
+    height: 50px;
+}
+
+/* Prevent text selection while dragging the divider */
+body.split-dragging {
+    cursor: col-resize !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+body.split-dragging * {
+    cursor: col-resize !important;
+}
+
+/* ----------------------------------------------------------------
+   ORB / AVATAR SECTION
+   ---------------------------------------------------------------- */
+#orb-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    overflow: hidden;
+}
+
+#orb-container {
+    position: relative;
+    width: var(--orb-size);
+    height: var(--orb-size);
+}
+
+/* Outer glow — large diffused shadow */
+.orb-glow {
+    position: absolute;
+    inset: -20%;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--mood-glow-strong) 0%, transparent 70%);
+    filter: blur(20px);
+    transition: all var(--transition-mood);
+    animation: orbBreathe 4s ease-in-out infinite;
+}
+
+/* Inner core — the visible sphere */
+.orb-core {
+    position: absolute;
+    inset: 15%;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 35% 35%,
+        rgba(255, 255, 255, 0.25),
+        var(--mood-color) 50%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    box-shadow:
+        0 0 40px var(--mood-glow),
+        0 0 80px var(--mood-glow),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-mood);
+    animation: orbPulse 4s ease-in-out infinite;
+}
+
+/* Orbiting particles */
+.orb-particles {
+    position: absolute;
+    inset: -10%;
+    border-radius: 50%;
+    animation: orbSpin 12s linear infinite;
+    transition: all var(--transition-mood);
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--mood-color);
+    box-shadow: 0 0 8px var(--mood-glow);
+    transition: all var(--transition-mood);
+}
+
+.p1 { top: 0;   left: 50%;  transform: translateX(-50%); }
+.p2 { bottom: 0; left: 50%;  transform: translateX(-50%); }
+.p3 { top: 50%;  left: 0;    transform: translateY(-50%); }
+.p4 { top: 50%;  right: 0;   transform: translateY(-50%); }
+
+/* ---- Orb animations ---- */
+
+/* Breathing: gentle scale for the glow layer */
+@keyframes orbBreathe {
+    0%, 100% { transform: scale(1);    opacity: 0.7; }
+    50%      { transform: scale(1.15); opacity: 1;   }
+}
+
+/* Pulse: subtle scale for the core */
+@keyframes orbPulse {
+    0%, 100% { transform: scale(1);    }
+    50%      { transform: scale(1.05); }
+}
+
+/* Spin: rotate the particle ring */
+@keyframes orbSpin {
+    from { transform: rotate(0deg);   }
+    to   { transform: rotate(360deg); }
+}
+
+/* Mood text under the orb */
+.orb-mood-text {
+    margin-top: var(--space-md);
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    transition: color var(--transition-mood);
+}
+
+
+/* ----------------------------------------------------------------
+   MOOD THEMES — each mood overrides CSS custom properties
+   ----------------------------------------------------------------
+   Applied as classes on orb elements. The transition-mood timing
+   ensures smooth colour morphing between moods.
+   ---------------------------------------------------------------- */
+
+/* Excited — warm gold, fast pulse */
+.mood-excited { --mood-color: #FFD700; --mood-glow: rgba(255, 215, 0, 0.35); --mood-glow-strong: rgba(255, 215, 0, 0.55); --mood-bg-tint: rgba(255, 215, 0, 0.1); }
+.mood-excited .orb-core  { animation-duration: 1.5s; }
+.mood-excited .orb-glow  { animation-duration: 1.5s; }
+.mood-excited .orb-particles { animation-duration: 4s; }
+
+/* Happy — soft green, gentle pulse */
+.mood-happy { --mood-color: #4ADE80; --mood-glow: rgba(74, 222, 128, 0.3); --mood-glow-strong: rgba(74, 222, 128, 0.5); --mood-bg-tint: rgba(74, 222, 128, 0.1); }
+.mood-happy .orb-core  { animation-duration: 3s; }
+.mood-happy .orb-glow  { animation-duration: 3s; }
+.mood-happy .orb-particles { animation-duration: 10s; }
+
+/* Curious — indigo/violet, moderate orbit */
+.mood-curious { --mood-color: #818CF8; --mood-glow: rgba(129, 140, 248, 0.3); --mood-glow-strong: rgba(129, 140, 248, 0.5); --mood-bg-tint: rgba(129, 140, 248, 0.1); }
+.mood-curious .orb-core  { animation-duration: 2.5s; }
+.mood-curious .orb-glow  { animation-duration: 2.5s; }
+.mood-curious .orb-particles { animation-duration: 6s; }
+
+/* Calm — sky blue, slow breathing */
+.mood-calm { --mood-color: #38BDF8; --mood-glow: rgba(56, 189, 248, 0.25); --mood-glow-strong: rgba(56, 189, 248, 0.45); --mood-bg-tint: rgba(56, 189, 248, 0.08); }
+.mood-calm .orb-core  { animation-duration: 5s; }
+.mood-calm .orb-glow  { animation-duration: 5s; }
+.mood-calm .orb-particles { animation-duration: 16s; }
+
+/* Anxious — orange/amber, jittery flicker */
+.mood-anxious { --mood-color: #F97316; --mood-glow: rgba(249, 115, 22, 0.35); --mood-glow-strong: rgba(249, 115, 22, 0.55); --mood-bg-tint: rgba(249, 115, 22, 0.1); }
+.mood-anxious .orb-core  { animation: orbJitter 0.8s ease-in-out infinite; }
+.mood-anxious .orb-glow  { animation-duration: 1.2s; }
+.mood-anxious .orb-particles { animation-duration: 3s; }
+
+/* Sad — muted slate, dim slow fade */
+.mood-sad { --mood-color: #64748B; --mood-glow: rgba(100, 116, 139, 0.2); --mood-glow-strong: rgba(100, 116, 139, 0.35); --mood-bg-tint: rgba(100, 116, 139, 0.08); }
+.mood-sad .orb-core  { animation-duration: 6s; }
+.mood-sad .orb-glow  { animation-duration: 6s; opacity: 0.5; }
+.mood-sad .orb-particles { animation-duration: 20s; opacity: 0.4; }
+
+/* Frustrated — red/coral, sharp pulse */
+.mood-frustrated { --mood-color: #EF4444; --mood-glow: rgba(239, 68, 68, 0.35); --mood-glow-strong: rgba(239, 68, 68, 0.55); --mood-bg-tint: rgba(239, 68, 68, 0.1); }
+.mood-frustrated .orb-core  { animation-duration: 1.2s; }
+.mood-frustrated .orb-glow  { animation-duration: 1.2s; }
+.mood-frustrated .orb-particles { animation-duration: 3s; }
+
+/* Neutral — lavender purple, smooth idle */
+.mood-neutral { --mood-color: #A78BFA; --mood-glow: rgba(167, 139, 250, 0.3); --mood-glow-strong: rgba(167, 139, 250, 0.5); --mood-bg-tint: rgba(167, 139, 250, 0.08); }
+
+/* Jitter animation for anxious mood */
+@keyframes orbJitter {
+    0%, 100% { transform: scale(1) translate(0, 0); }
+    20%      { transform: scale(1.02) translate(-1px, 1px); }
+    40%      { transform: scale(0.98) translate(1px, -1px); }
+    60%      { transform: scale(1.01) translate(-1px, -1px); }
+    80%      { transform: scale(0.99) translate(1px, 1px); }
+}
+
+
+/* ----------------------------------------------------------------
+   CHAT AREA
+   ---------------------------------------------------------------- */
+#chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-md) var(--space-lg);
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+#chat-area::-webkit-scrollbar {
+    width: 6px;
+}
+#chat-area::-webkit-scrollbar-track {
+    background: transparent;
+}
+#chat-area::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+#chat-area::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.messages {
+    max-width: var(--max-chat-width);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding-bottom: var(--space-xl);
+}
+
+
+/* ----------------------------------------------------------------
+   MESSAGE BUBBLES — Dala Borderless Floating Copy (Weight 200)
+   ---------------------------------------------------------------- */
+.message {
+    display: flex;
+    gap: var(--space-sm);
+    max-width: 88%;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: messageEntrance 0.4s ease forwards;
+}
+
+@keyframes messageEntrance {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Bot messages — left aligned, borderless, floating */
+.bot-message {
+    align-self: flex-start;
+}
+
+.message-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-nav-label);
+    color: var(--color-electric-iris);
+    flex-shrink: 0;
+    margin-top: 2px;
+    box-shadow: none;
+}
+
+.message-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.message-bubble {
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-cards);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border: none;
+    border-left: none;
+    font-size: var(--text-body); /* 18px */
+    font-weight: var(--font-weight-extralight); /* Weight 200 signature Dala reading weight */
+    line-height: 1.5;
+    color: var(--color-bone-white);
+    box-shadow: none;
+}
+
+.message-bubble p {
+    margin-bottom: var(--space-sm);
+}
+
+.message-bubble p:last-child {
+    margin-bottom: 0;
+}
+
+/* Inline code in bot messages */
+.message-bubble code {
+    background: rgba(255, 255, 255, 0.06);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.875em;
+    font-weight: var(--font-weight-regular);
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    color: var(--color-saffron-spark);
+}
+
+/* Code blocks in bot messages */
+.message-bubble pre {
+    background: rgba(255, 255, 255, 0.03);
+    padding: var(--space-md);
+    border-radius: 12px;
+    overflow-x: auto;
+    margin: var(--space-sm) 0;
+    border: none;
+}
+
+.message-bubble pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.85em;
+}
+
+/* Bold text — subtle emphasis */
+.message-bubble strong {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-bone-white);
+}
+
+/* Lists */
+.message-bubble ul, .message-bubble ol {
+    padding-left: var(--space-lg);
+    margin: var(--space-sm) 0;
+}
+
+.message-bubble li {
+    margin-bottom: var(--space-xs);
+}
+
+/* User messages — right aligned, subtle Electric Iris tint */
+.user-message {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.user-message .message-bubble {
+    border-radius: var(--radius-pill);
+    background: rgba(128, 82, 255, 0.08); /* Subtle Electric Iris tint */
+    border: none;
+    backdrop-filter: none;
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-extralight);
+    color: var(--color-bone-white);
+}
+
+.user-message .message-avatar {
+    display: none;
+}
+
+
+/* ----------------------------------------------------------------
+   TYPING INDICATOR — bouncing dots
+   ---------------------------------------------------------------- */
+.typing-indicator {
+    display: flex;
+    gap: 6px;
+    padding: var(--space-sm) var(--space-md);
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-electric-iris);
+    opacity: 0.6;
+    animation: typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0);    opacity: 0.3; }
+    30%           { transform: translateY(-6px);  opacity: 1;   }
+}
+
+
+/* ----------------------------------------------------------------
+   INPUT BAR — Borderless 24px Card + Electric Iris Primary Pill Button
+   ---------------------------------------------------------------- */
+#input-bar {
+    position: relative;
+    z-index: 100;
+    flex-shrink: 0;
+    padding: var(--space-xs) var(--space-sm) var(--space-sm);
+    background: transparent;
+    pointer-events: none;
+}
+
+.input-top-bar {
+    max-width: var(--max-chat-width);
+    margin: 0 auto 6px auto;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 4px;
+    pointer-events: auto;
+}
+
+.input-wrapper,
+.input-hint {
+    pointer-events: auto;
+}
+
+.input-wrapper {
+    max-width: var(--max-chat-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-sm) var(--space-sm) var(--space-md);
+    border-radius: var(--radius-cards); /* 24px radius token */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: border-color var(--transition-normal);
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--color-electric-iris);
+    box-shadow: none;
+}
+
+#user-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--color-bone-white);
+    font-family: var(--font-family);
+    font-size: var(--text-body); /* 18px */
+    font-weight: var(--font-weight-extralight); /* Weight 200 */
+    line-height: 1.5;
+    resize: none;
+    max-height: 120px;
+    padding: var(--space-xs) 0;
+}
+
+#user-input::placeholder {
+    color: var(--color-ash-gray);
+}
+
+/* Hands-free wake-word badge indicator */
+.wake-word-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: var(--radius-tags);
+    background: rgba(128, 82, 255, 0.08);
+    border: 1px solid rgba(128, 82, 255, 0.2);
+    font-size: var(--text-caption);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-silver-mist);
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    transition: all var(--transition-fast);
+    align-self: center;
+    margin-right: 4px;
+    user-select: none;
+}
+
+.wake-word-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-electric-iris);
+    animation: dotPulse 2s ease-in-out infinite;
+}
+
+.wake-word-badge.listening {
+    border-color: rgba(255, 184, 41, 0.4);
+    background: rgba(255, 184, 41, 0.1);
+    color: var(--color-saffron-spark);
+}
+
+.wake-word-badge.listening .wake-word-dot {
+    background: var(--color-saffron-spark);
+}
+
+/* ---- Mic button (Ghost style) ---- */
+.btn-mic {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-pill);
+    border: none;
+    background: transparent;
+    color: var(--color-ash-gray);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast);
+    flex-shrink: 0;
+    position: relative;
+}
+
+.btn-mic:hover {
+    background: transparent;
+    color: var(--color-bone-white);
+    border: none;
+}
+
+/* Recording state */
+.btn-mic.recording {
+    background: transparent;
+    color: var(--color-saffron-spark);
+}
+
+.btn-mic.recording .mic-icon {
+    display: none;
+}
+
+.btn-mic.recording .mic-waves {
+    display: flex !important;
+}
+
+/* Animated wave bars inside the mic button during recording */
+.mic-waves {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 20px;
+}
+
+.mic-wave-bar {
+    width: 3px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--color-saffron-spark);
+    animation: waveBar 1.2s ease-in-out infinite;
+}
+
+.mic-wave-bar:nth-child(1) { animation-delay: 0.0s; }
+.mic-wave-bar:nth-child(2) { animation-delay: 0.1s; }
+.mic-wave-bar:nth-child(3) { animation-delay: 0.2s; }
+.mic-wave-bar:nth-child(4) { animation-delay: 0.3s; }
+.mic-wave-bar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes waveBar {
+    0%, 100% { height: 4px;  opacity: 0.4; }
+    50%      { height: 16px; opacity: 1;   }
+}
+
+/* Processing state */
+.btn-mic.processing {
+    background: transparent !important;
+    color: var(--color-electric-iris) !important;
+    cursor: wait;
+}
+
+.btn-mic.processing .mic-icon,
+.btn-mic.processing .mic-waves {
+    display: none !important;
+}
+
+/* Spinner element */
+.btn-mic .spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: micSpin 0.8s linear infinite;
+    box-sizing: border-box;
+}
+
+.btn-mic.processing .spinner {
+    display: block !important;
+}
+
+@keyframes micSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ---- Dala Status Tag Bar (Saffron Spark #ffb829) ---- */
+.voice-status {
+    max-width: var(--max-chat-width);
+    margin: var(--space-xs) auto 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 4px 14px;
+    border-radius: var(--radius-tags);
+    background: transparent;
+    border: 1px solid rgba(255, 184, 41, 0.2);
+    font-size: var(--text-nav-label);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-saffron-spark);
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+    animation: messageEntrance 0.3s ease forwards;
+}
+
+.voice-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-saffron-spark);
+    flex-shrink: 0;
+}
+
+.voice-status-dot.listening {
+    background: var(--color-saffron-spark);
+    animation: dotPulse 1s ease-in-out infinite;
+}
+
+.voice-status-dot.speaking {
+    background: var(--color-electric-iris);
+    animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+/* ---- Recording Preview Bar ---- */
+/* Appears after user stops recording — shows playback + transcript + actions */
+.recording-preview {
+    max-width: var(--max-chat-width);
+    margin: var(--space-sm) auto 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 14px;
+    background: var(--bg-glass-strong);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    animation: messageEntrance 0.3s ease forwards;
+}
+
+/* Play/Pause button */
+.btn-preview-play {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    border: none;
+    background: var(--mood-color);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.btn-preview-play:hover {
+    filter: brightness(1.2);
+    transform: scale(1.08);
+}
+
+/* Waveform visualization */
+.preview-waveform {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-shrink: 0;
+}
+
+.preview-waveform-bars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 28px;
+}
+
+.wbar {
+    width: 3px;
+    border-radius: 2px;
+    background: var(--text-muted);
+    transition: background 0.3s ease;
+}
+
+/* Generate random-looking static heights for each bar */
+.wbar:nth-child(1)  { height: 8px; }
+.wbar:nth-child(2)  { height: 14px; }
+.wbar:nth-child(3)  { height: 20px; }
+.wbar:nth-child(4)  { height: 12px; }
+.wbar:nth-child(5)  { height: 24px; }
+.wbar:nth-child(6)  { height: 16px; }
+.wbar:nth-child(7)  { height: 10px; }
+.wbar:nth-child(8)  { height: 22px; }
+.wbar:nth-child(9)  { height: 18px; }
+.wbar:nth-child(10) { height: 6px; }
+.wbar:nth-child(11) { height: 20px; }
+.wbar:nth-child(12) { height: 14px; }
+.wbar:nth-child(13) { height: 26px; }
+.wbar:nth-child(14) { height: 10px; }
+.wbar:nth-child(15) { height: 18px; }
+.wbar:nth-child(16) { height: 8px; }
+.wbar:nth-child(17) { height: 22px; }
+.wbar:nth-child(18) { height: 12px; }
+.wbar:nth-child(19) { height: 16px; }
+.wbar:nth-child(20) { height: 6px; }
+
+/* Playing state — bars animate and color matches mood */
+.recording-preview.playing .wbar {
+    background: var(--mood-color);
+    animation: waveBar 1.2s ease-in-out infinite;
+}
+
+.recording-preview.playing .wbar:nth-child(1)  { animation-delay: 0.00s; }
+.recording-preview.playing .wbar:nth-child(2)  { animation-delay: 0.06s; }
+.recording-preview.playing .wbar:nth-child(3)  { animation-delay: 0.12s; }
+.recording-preview.playing .wbar:nth-child(4)  { animation-delay: 0.18s; }
+.recording-preview.playing .wbar:nth-child(5)  { animation-delay: 0.24s; }
+.recording-preview.playing .wbar:nth-child(6)  { animation-delay: 0.30s; }
+.recording-preview.playing .wbar:nth-child(7)  { animation-delay: 0.36s; }
+.recording-preview.playing .wbar:nth-child(8)  { animation-delay: 0.42s; }
+.recording-preview.playing .wbar:nth-child(9)  { animation-delay: 0.48s; }
+.recording-preview.playing .wbar:nth-child(10) { animation-delay: 0.54s; }
+.recording-preview.playing .wbar:nth-child(11) { animation-delay: 0.60s; }
+.recording-preview.playing .wbar:nth-child(12) { animation-delay: 0.66s; }
+.recording-preview.playing .wbar:nth-child(13) { animation-delay: 0.72s; }
+.recording-preview.playing .wbar:nth-child(14) { animation-delay: 0.78s; }
+.recording-preview.playing .wbar:nth-child(15) { animation-delay: 0.84s; }
+.recording-preview.playing .wbar:nth-child(16) { animation-delay: 0.90s; }
+.recording-preview.playing .wbar:nth-child(17) { animation-delay: 0.96s; }
+.recording-preview.playing .wbar:nth-child(18) { animation-delay: 1.02s; }
+.recording-preview.playing .wbar:nth-child(19) { animation-delay: 1.08s; }
+.recording-preview.playing .wbar:nth-child(20) { animation-delay: 1.14s; }
+
+/* Duration label */
+.preview-duration {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    min-width: 30px;
+}
+
+/* Transcript text */
+.preview-transcript {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+/* Send / Discard buttons */
+.btn-preview-send,
+.btn-preview-discard {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.btn-preview-send {
+    background: var(--mood-color);
+    color: #fff;
+}
+
+.btn-preview-send:hover {
+    filter: brightness(1.2);
+    transform: scale(1.08);
+}
+
+.btn-preview-discard {
+    background: rgba(239, 68, 68, 0.12);
+    color: #EF4444;
+}
+
+.btn-preview-discard:hover {
+    background: rgba(239, 68, 68, 0.25);
+    transform: scale(1.08);
+}
+
+/* ---- Send button (The ONE filled Electric Iris #8052ff primary action) ---- */
+.btn-send {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-pill);
+    border: none;
+    background: var(--color-electric-iris);
+    color: var(--color-bone-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px rgba(128, 82, 255, 0.35);
+}
+
+.btn-send:hover:not(:disabled) {
+    background: #9066ff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(128, 82, 255, 0.55);
+}
+
+.btn-send:disabled {
+    opacity: 0.25;
+    background: var(--color-ash-gray);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.btn-send:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+/* ---- Orb speaking animation — layered on when TTS is active ---- */
+.orb-speaking .orb-core {
+    animation: orbSpeakPulse 0.6s ease-in-out infinite !important;
+}
+
+.orb-speaking .orb-glow {
+    animation: orbSpeakGlow 0.6s ease-in-out infinite !important;
+}
+
+@keyframes orbSpeakPulse {
+    0%, 100% { transform: scale(1);    }
+    50%      { transform: scale(1.12); }
+}
+
+@keyframes orbSpeakGlow {
+    0%, 100% { transform: scale(1);   opacity: 0.7; }
+    50%      { transform: scale(1.3); opacity: 1;   }
+}
+
+.input-hint {
+    text-align: center;
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+    margin-top: var(--space-xs);
+    opacity: 0.6;
+}
+
+.input-hint kbd {
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--font-family);
+    font-size: 0.7rem;
+}
+
+
+/* ----------------------------------------------------------------
+   MOOD-REACTIVE GLOBAL ACCENTS
+   ----------------------------------------------------------------
+   When the mood changes, the body gets a mood-* class that
+   overrides the root CSS properties, cascading to all elements.
+   ---------------------------------------------------------------- */
+body.mood-excited    { --mood-color: #FFD700; --mood-glow: rgba(255, 215, 0, 0.3);    --mood-glow-strong: rgba(255, 215, 0, 0.5);    --mood-bg-tint: rgba(255, 215, 0, 0.08); }
+body.mood-happy      { --mood-color: #4ADE80; --mood-glow: rgba(74, 222, 128, 0.3);   --mood-glow-strong: rgba(74, 222, 128, 0.5);   --mood-bg-tint: rgba(74, 222, 128, 0.08); }
+body.mood-curious    { --mood-color: #818CF8; --mood-glow: rgba(129, 140, 248, 0.3);  --mood-glow-strong: rgba(129, 140, 248, 0.5);  --mood-bg-tint: rgba(129, 140, 248, 0.08); }
+body.mood-calm       { --mood-color: #38BDF8; --mood-glow: rgba(56, 189, 248, 0.25);  --mood-glow-strong: rgba(56, 189, 248, 0.45);  --mood-bg-tint: rgba(56, 189, 248, 0.08); }
+body.mood-anxious    { --mood-color: #F97316; --mood-glow: rgba(249, 115, 22, 0.3);   --mood-glow-strong: rgba(249, 115, 22, 0.5);   --mood-bg-tint: rgba(249, 115, 22, 0.08); }
+body.mood-sad        { --mood-color: #64748B; --mood-glow: rgba(100, 116, 139, 0.2);  --mood-glow-strong: rgba(100, 116, 139, 0.35); --mood-bg-tint: rgba(100, 116, 139, 0.08); }
+body.mood-frustrated { --mood-color: #EF4444; --mood-glow: rgba(239, 68, 68, 0.3);    --mood-glow-strong: rgba(239, 68, 68, 0.5);    --mood-bg-tint: rgba(239, 68, 68, 0.08); }
+body.mood-neutral    { --mood-color: #A78BFA; --mood-glow: rgba(167, 139, 250, 0.3);  --mood-glow-strong: rgba(167, 139, 250, 0.5);  --mood-bg-tint: rgba(167, 139, 250, 0.08); }
+
+
+/* ----------------------------------------------------------------
+   ERROR MESSAGE
+   ---------------------------------------------------------------- */
+.error-bubble {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-color: rgba(239, 68, 68, 0.3) !important;
+    border-left-color: #EF4444 !important;
+    color: #FCA5A5 !important;
+}
+
+
+/* ----------------------------------------------------------------
+   RESPONSIVE — mobile adaptations
+   ---------------------------------------------------------------- */
+@media (max-width: 768px) {
+    /* Fall back to stacked vertical layout on mobile */
+    #app-main {
+        flex-direction: column;
+    }
+
+    #panel-avatar {
+        flex: 0 0 auto;
+        max-height: 35vh;
+        min-width: unset;
+        max-width: unset;
+        width: 100%;
+    }
+
+    #panel-chat {
+        flex: 1;
+        min-width: unset;
+        width: 100%;
+    }
+
+    /* Hide the draggable divider on mobile */
+    #split-divider {
+        display: none;
+    }
+
+    #orb-section {
+        padding: var(--space-sm);
+    }
+
+    .chat-glow-container {
+        margin: 0;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+    }
+
+    #chat-area {
+        padding-bottom: var(--space-md) !important;
+    }
+
+    .border-glow-outline,
+    .border-glow-bloom {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    :root {
+        --orb-size: 80px;
+        --header-height: 56px;
+    }
+
+    #app-header {
+        padding: 0 var(--space-md);
+    }
+
+    .header-subtitle {
+        display: none;
+    }
+
+    #panel-avatar {
+        max-height: 28vh;
+    }
+
+    #chat-area {
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .message {
+        max-width: 92%;
+    }
+
+    #input-bar {
+        padding: var(--space-sm) var(--space-md) var(--space-xs);
+    }
+
+    .input-hint {
+        display: none;
+    }
+}
+
+/* ================================================================
+   LANDING PAGE OVERLAY (Splash & Welcome — Dala Design System)
+   ================================================================ */
+.landing-page {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: var(--color-void);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 500ms ease;
+}
+
+.landing-page.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Screen 1: Splash Screen */
+.splash-screen {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 500ms ease;
+}
+
+.splash-screen.fade-out {
+    opacity: 0;
+}
+
+.splash-orb-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.splash-orb-bloom {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(128, 82, 255, 0.4) 0%, transparent 70%);
+    filter: blur(25px);
+    animation: orbBreathe 3s ease-in-out infinite;
+}
+
+.splash-orb-core {
+    position: absolute;
+    inset: 15%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.15), var(--color-electric-iris) 60%, var(--color-deep-verdant) 100%);
+    box-shadow: 0 0 30px rgba(128, 82, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border: none;
+    animation: orbPulse 3s ease-in-out infinite;
+}
+
+.splash-orb-ring {
+    position: absolute;
+    inset: -10%;
+    border: 1px dashed rgba(128, 82, 255, 0.3);
+    border-radius: 50%;
+    animation: orbSpin 12s linear infinite;
+}
+
+.splash-title {
+    margin-top: var(--space-lg);
+    font-size: var(--text-nav-label);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-bone-white);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Screen 2: Welcome Screen (Dala Asymmetric 2-Column Composition) */
+.welcome-screen {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: var(--page-max-width);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: var(--space-xl) var(--space-lg);
+    box-sizing: border-box;
+    transition: opacity 500ms ease;
+}
+
+.welcome-screen.hidden {
+    display: none !important;
+    opacity: 0;
+}
+
+.welcome-screen.visible {
+    display: flex !important;
+    opacity: 1;
+}
+
+.welcome-wordmark {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--text-nav-label);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.025em;
+    color: var(--color-bone-white);
+    text-transform: uppercase;
+}
+
+.welcome-wordmark .logo-mark {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-hero {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: var(--space-2xl);
+    width: 100%;
+    align-items: center;
+    margin: auto 0;
+}
+
+.welcome-hero-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+    max-width: 680px;
+}
+
+/* Saffron Spark Amber Uppercase Kicker */
+.amber-kicker {
+    font-size: var(--text-nav-label);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: 0.35px;
+    text-transform: uppercase;
+    color: var(--color-saffron-spark);
+}
+
+/* Dala Signature Headline: Massive Scale 78px, Weight 400, Negative Tracking -3.12px */
+.welcome-headline {
+    font-size: clamp(42px, 6vw, var(--text-heading-lg));
+    font-weight: var(--font-weight-regular); /* Weight 400 — Dala trusts scale over weight */
+    letter-spacing: -3.12px;
+    line-height: 1.05;
+    color: var(--color-bone-white);
+    margin: 0;
+}
+
+.highlight-saffron {
+    color: var(--color-saffron-spark);
+}
+
+/* Dala Signature Body Copy: 18px, Weight 200 (Ultra-light) */
+.welcome-subheading {
+    font-size: var(--text-body);
+    font-weight: var(--font-weight-extralight); /* Weight 200 */
+    color: var(--color-silver-mist);
+    line-height: 1.5;
+    max-width: 520px;
+}
+
+/* Dala Primary Action Button: Filled Electric Iris (#8052ff) Violet Pill */
+.welcome-cta {
+    margin-top: var(--space-md);
+}
+
+.btn-start-chat {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: 14.4px 24px;
+    border-radius: var(--radius-pill);
+    border: none;
+    background: var(--color-electric-iris);
+    color: var(--color-bone-white);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--text-nav-label);
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(128, 82, 255, 0.35);
+    transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+}
+
+.btn-start-chat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(128, 82, 255, 0.55);
+    background: #9066ff;
+}
+
+.btn-start-chat:active {
+    transform: translateY(0);
+}
+
+.btn-start-chat svg {
+    transition: transform 300ms ease;
+}
+
+.btn-start-chat:hover svg {
+    transform: translateX(3px);
+}
+
+/* Footer branding */
+.welcome-footer {
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.welcome-footer span {
+    color: var(--text-secondary);
+}
+
+/* Stagger animation helpers */
+.stagger-item {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 600ms ease, transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.stagger-item.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsiveness overrides */
+@media (max-width: 640px) {
+    .welcome-headline {
+        font-size: 2.5rem;
+    }
+    .welcome-subheading {
+        font-size: var(--font-size-base);
+    }
+    .welcome-screen {
+        padding: var(--space-xl) var(--space-md);
+    }
+}
+
+/* AI Avatar Container & Video styling — Seamless Lip-Sync Lock */
+#avatar-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    overflow: hidden;
+    background-color: var(--color-void);
+    border: none;
+    position: relative;
+    box-shadow: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+#avatar-wrapper {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 0;
+}
+
+#avatar-mouth {
+    position: absolute;
+    width: 4.90%;
+    height: 3.00%;
+    top: 36.50%;
+    left: 47.80%;
+
+    background-image: url('/static/jarvish_face.jpg');
+    background-size: 2040.82% 3333.33%;
+    background-position: 50.26% 37.63%;
+    background-repeat: no-repeat;
+    background-color: #1a080c;
+
+    transform-origin: center top;
+    transition: transform 0.06s cubic-bezier(0.2, 0.8, 0.2, 1);
+    border-radius: 40% 40% 50% 50%;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+}
+
+/* Debug calibration mode for mouth overlay */
+#avatar-mouth.debug-mouth {
+    background-image: none !important;
+    background-color: rgba(255, 0, 0, 0.85) !important;
+    border: 2px solid #ff0000 !important;
+    border-radius: 4px !important;
+    z-index: 9999 !important;
+}

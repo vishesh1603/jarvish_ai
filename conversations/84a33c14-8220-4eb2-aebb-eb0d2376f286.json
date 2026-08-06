@@ -1,0 +1,101 @@
+{
+  "id": "84a33c14-8220-4eb2-aebb-eb0d2376f286",
+  "title": "HELLO",
+  "created_at": "2026-08-06T09:43:02.809741+00:00",
+  "updated_at": "2026-08-06T10:11:38.567717+00:00",
+  "last_mood": "neutral",
+  "messages": [
+    {
+      "role": "user",
+      "text": "HELLO"
+    },
+    {
+      "role": "model",
+      "text": "Hey there! 👋 I'm Jarvish, your AI study buddy. My neural engine is currently handling rate limits, but I'm right here! What would you like to learn or explore today?"
+    },
+    {
+      "role": "user",
+      "text": "HELLO"
+    },
+    {
+      "role": "model",
+      "text": "Hey there! 👋 I'm Jarvish, your AI study buddy. My neural engine is currently handling rate limits, but I'm right here! What would you like to learn or explore today?"
+    },
+    {
+      "role": "user",
+      "text": "hello"
+    },
+    {
+      "role": "model",
+      "text": "Hey there! 👋 I'm Jarvish, your AI study buddy. My neural engine is currently handling rate limits, but I'm right here! What would you like to learn or explore today?"
+    },
+    {
+      "role": "user",
+      "text": "i am good be happy"
+    },
+    {
+      "role": "model",
+      "text": "I am currently receiving a high volume of requests (API rate limit active). Let's continue our lesson in just a moment! You said: 'i am good be happy'."
+    },
+    {
+      "role": "user",
+      "text": "Tell me a sentence about space."
+    },
+    {
+      "role": "model",
+      "text": "I am currently receiving a high volume of requests (API rate limit active). Let's continue our lesson in just a moment! You said: 'Tell me a sentence about space.'."
+    },
+    {
+      "role": "user",
+      "text": "Tell me a sentence about space."
+    },
+    {
+      "role": "model",
+      "text": "I am currently receiving a high volume of requests (API rate limit active). Let's continue our lesson in just a moment! You said: 'Tell me a sentence about space.'."
+    },
+    {
+      "role": "user",
+      "text": "Tell me a sentence about space."
+    },
+    {
+      "role": "model",
+      "text": "I am currently receiving a high volume of requests (API rate limit active). Let's continue our lesson in just a moment! You said: 'Tell me a sentence about space.'."
+    },
+    {
+      "role": "user",
+      "text": "Tell me a sentence about space."
+    },
+    {
+      "role": "model",
+      "text": "I am currently receiving a high volume of requests (API rate limit active). Let's continue our lesson in just a moment! You said: 'Tell me a sentence about space.'."
+    },
+    {
+      "role": "user",
+      "text": "hello"
+    },
+    {
+      "role": "model",
+      "text": "Hey there! 👋 I'm Jarvish, your AI study buddy. My neural engine is currently handling rate limits, but I'm right here! What would you like to learn or explore today?"
+    },
+    {
+      "role": "user",
+      "text": "Tell me a sentence about space."
+    },
+    {
+      "role": "model",
+      "text": "I am currently receiving a high volume of requests (API rate limit active). Let's continue our lesson in just a moment! You said: 'Tell me a sentence about space.'."
+    },
+    {
+      "role": "user",
+      "text": "hello"
+    },
+    {
+      "role": "model",
+      "text": "Hey there! 👋 I'm Jarvish, your AI study buddy. My neural engine is currently handling rate limits, but I'm right here! What would you like to learn or explore today?"
+    }
+  ],
+  "engine_state": {
+    "valence": 0.0,
+    "arousal": 0.3
+  }
+}
